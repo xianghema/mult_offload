@@ -303,6 +303,7 @@ def main():
     episode_priority_means: List[float] = []
     episode_priority_maxes: List[float] = []
     episode_is_weight_means: List[float] = []
+    total_post50_episode_time_sec = 0.0
     eval_episode_indices: List[int] = []
     eval_rewards: List[float] = []
     eval_success_rates: List[float] = []
@@ -351,8 +352,10 @@ def main():
         priority_max_ep = 0.0
         is_weight_mean_sum = 0.0
         replay_stat_count = 0
+        post50_time_sec = 0.0
 
         for step in range(args.max_steps):
+            step_t0 = time.time()
             if ep <= args.warmup_episodes:
                 cont_action, relay_target = sample_random_actions(env)
             else:
@@ -428,6 +431,9 @@ def main():
             hop_matrix = next_state["hop_matrix"]
             alive_mask = next_state["alive_mask"]
 
+            step_time = time.time() - step_t0
+            if step >= 50:
+                post50_time_sec += float(step_time)
             if terminated or truncated:
                 break
 
@@ -483,6 +489,7 @@ def main():
         episode_priority_means.append(float(ep_priority_mean))
         episode_priority_maxes.append(float(ep_priority_max))
         episode_is_weight_means.append(float(ep_is_weight_mean))
+        total_post50_episode_time_sec += float(post50_time_sec)
 
         reward_ma = float(np.mean(episode_rewards[-args.reward_ma_window :]))
         eval_reward: Optional[float] = None
@@ -697,6 +704,7 @@ def main():
         "best_avg_weight": float(np.max(episode_avg_weights)),
         "best_avg_device_steps": float(np.max(episode_avg_device_steps)),
         "training_time_sec": float(training_time),
+        "avg_episode_time_after_step50_sec": float(total_post50_episode_time_sec / max(args.episodes, 1)),
         "best_episode": int(best_episode),
         "audit_around_best_timeout_mean": around_best_timeout,
         "audit_tail100_timeout_mean": tail_timeout,
