@@ -156,7 +156,7 @@ def get_default_chapter4_final_config() -> Dict:
         "reward_scale": 1.5,
         "infeasible_penalty": 4.0,    # 实际使用时以 -k_inv 进入奖励
         "dead_step_penalty_ratio": 0.50,  # 已掉电设备每步持续惩罚系数：k_dead_step = ratio * k_inv
-        "delay_penalty_scale": 1.8,
+        "delay_penalty_scale": 1.5,
         "energy_penalty_scale": 1.0,
 
         # ===== 拓扑 =====

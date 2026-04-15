@@ -51,7 +51,7 @@ class HATD3D3QNConfig:
     buffer_size: int = 400000
 
     # replay sampling
-    replay_strategy: str = "mixed_recent_per"  # uniform | mixed_recent_uniform | mixed_recent_per | per
+    replay_strategy: str = "mixed_recent_uniform"  # uniform | mixed_recent_uniform | mixed_recent_per | per
     recent_ratio: float = 0.30
     recent_window: int = 20000
     per_alpha: float = 0.4

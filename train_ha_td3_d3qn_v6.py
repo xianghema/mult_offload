@@ -226,7 +226,7 @@ def main():
     parser.add_argument("--num_servers", type=int, default=6)
     parser.add_argument("--battery_capacity", type=float, default=16.0)
     parser.add_argument("--infeasible_penalty", type=float, default=4.0)
-    parser.add_argument("--delay_penalty_scale", type=float, default=1.8)
+    parser.add_argument("--delay_penalty_scale", type=float, default=1.5)
     parser.add_argument("--energy_penalty_scale", type=float, default=1.0)
     parser.add_argument("--dead_step_penalty_ratio", type=float, default=0.50)
 
@@ -239,7 +239,7 @@ def main():
     parser.add_argument(
         "--replay_strategy",
         type=str,
-        default="mixed_recent_per",
+        default="mixed_recent_uniform",
         choices=["uniform", "mixed_recent_uniform", "mixed_recent_per", "per"],
     )
     parser.add_argument("--recent_ratio", type=float, default=0.30)
